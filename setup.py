@@ -1,6 +1,5 @@
 import os
-import sys
-from setuptools import setup, find_packages
+from setuptools import setup
 
 LONG_DESCRIPTION = """
 wq command line tool.
@@ -46,11 +45,6 @@ def create_wq_namespace():
 
 
 create_wq_namespace()
-
-if sys.platform == "win32":
-    script_name = "wq.py"
-else:
-    script_name = "wq"
 
 setup(
     name='wq.core',
