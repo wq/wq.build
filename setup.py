@@ -1,0 +1,90 @@
+import os
+import sys
+from setuptools import setup, find_packages
+
+LONG_DESCRIPTION = """
+wq command line tool.
+"""
+
+
+def parse_markdown_readme():
+    """
+    Convert README.md to RST via pandoc, and load into memory
+    (fallback to LONG_DESCRIPTION on failure)
+    """
+    # Attempt to run pandoc on markdown file
+    import subprocess
+    try:
+        subprocess.call(
+            ['pandoc', '-t', 'rst', '-o', 'README.rst', 'README.md']
+        )
+    except OSError:
+        return LONG_DESCRIPTION
+
+    # Attempt to load output
+    try:
+        readme = open(os.path.join(
+            os.path.dirname(__file__),
+            'README.rst'
+        ))
+    except IOError:
+        return LONG_DESCRIPTION
+    return readme.read()
+
+
+def create_wq_namespace():
+    """
+    Generate the wq namespace package
+    (not checked in, as it technically is the parent of this folder)
+    """
+    if os.path.isdir("wq"):
+        return
+    os.makedirs("wq")
+    init = open(os.path.join("wq", "__init__.py"), 'w')
+    init.write("__import__('pkg_resources').declare_namespace(__name__)")
+    init.close()
+
+
+create_wq_namespace()
+
+if sys.platform == "win32":
+    script_name = "wq.py"
+else:
+    script_name = "wq"
+
+setup(
+    name='wq.core',
+    version='0.8.0-dev',
+    author='S. Andrew Sheppard',
+    author_email='andrew@wq.io',
+    url='https://wq.io/',
+    license='MIT',
+    packages=['wq', 'wq.core'],
+    package_dir={
+        'wq.core': '.',
+    },
+    install_requires=[
+        'Click',
+        'PyYAML',
+    ],
+    namespace_packages=['wq'],
+    entry_points='''
+       [console_scripts]
+       wq=wq.core:wq
+    ''',
+    description=LONG_DESCRIPTION.strip(),
+    long_description=parse_markdown_readme(),
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Web Environment',
+        'License :: OSI Approved :: MIT License',
+        'Natural Language :: English',
+        'Programming Language :: JavaScript',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.4',
+        'Topic :: Software Development :: Libraries :: Application Frameworks',
+        'Topic :: Software Development :: Build Tools',
+    ]
+)
