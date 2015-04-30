@@ -15,6 +15,9 @@ import yaml
 def wq(ctx, config):
     """
     wq is a suite of command line utilities for building citizen science apps.
+    Each of the commands below can be configured by creating a wq.yml file in
+    the current directory.  Many of the commands can also be configured via
+    command line options.
     """
     if ctx.obj:
         # Allow for multiple invocations without resetting context
@@ -46,4 +49,4 @@ for module in iter_entry_points(group='wq', name=None):
 
 # Update help text with list of installed modules
 if module_names:
-    wq.help += " Installed modules: " + ", ".join(sorted(module_names))
+    wq.help += "\n\nInstalled modules: " + ", ".join(sorted(module_names))
