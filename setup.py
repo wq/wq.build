@@ -2,7 +2,7 @@ import os
 from setuptools import setup
 
 LONG_DESCRIPTION = """
-wq command line tool.
+The wq command line tool.
 """
 
 
@@ -48,7 +48,7 @@ create_wq_namespace()
 
 setup(
     name='wq.core',
-    version='0.8.0-dev',
+    version='0.8.0',
     author='S. Andrew Sheppard',
     author_email='andrew@wq.io',
     url='https://wq.io/',
