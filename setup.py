@@ -48,7 +48,7 @@ create_wq_namespace()
 
 setup(
     name='wq.core',
-    version='0.8.0',
+    version='0.8.1',
     author='S. Andrew Sheppard',
     author_email='andrew@wq.io',
     url='https://wq.io/',
@@ -58,7 +58,7 @@ setup(
         'wq.core': '.',
     },
     install_requires=[
-        'Click',
+        'click<6',
         'PyYAML',
     ],
     namespace_packages=['wq'],
