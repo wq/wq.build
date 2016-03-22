@@ -48,7 +48,7 @@ create_wq_namespace()
 
 setup(
     name='wq.core',
-    version='0.8.1',
+    version='1.0.0a1',
     author='S. Andrew Sheppard',
     author_email='andrew@wq.io',
     url='https://wq.io/',
@@ -78,6 +78,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Build Tools',
     ]
