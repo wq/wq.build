@@ -42,11 +42,23 @@ wq.pass_config = click.make_pass_decorator(Config)
 
 # Load custom commands from other modules
 from pkg_resources import iter_entry_points
-module_names = []
+module_names = ['wq.core']
 for module in iter_entry_points(group='wq', name=None):
     module_names.append(module.name)
     module.load()
 
+expected = [
+    'wq.app',
+    'wq.core',
+    # 'wq.db',
+    'wq.io',
+    'wq.start',
+]
+missing = set(expected) - set(module_names)
+
 # Update help text with list of installed modules
 if module_names:
     wq.help += "\n\nInstalled modules: " + ", ".join(sorted(module_names))
+if missing:
+    wq.help += "\n\nMissing modules: " + ", ".join(sorted(missing))
+    wq.help += "\n(try installing the 'wq' metapackage)"
