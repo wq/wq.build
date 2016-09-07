@@ -1,6 +1,7 @@
 import click
 from .decorators import config_group
 import yaml
+from pkg_resources import iter_entry_points
 
 
 # Core wq CLI
@@ -41,8 +42,7 @@ wq.pass_config = click.make_pass_decorator(Config)
 
 
 # Load custom commands from other modules
-from pkg_resources import iter_entry_points
-module_names = ['wq.core']
+module_names = []
 for module in iter_entry_points(group='wq', name=None):
     module_names.append(module.name)
     module.load()
@@ -50,7 +50,7 @@ for module in iter_entry_points(group='wq', name=None):
 expected = [
     'wq.app',
     'wq.core',
-    # 'wq.db',
+    'wq.db',
     'wq.io',
     'wq.start',
 ]

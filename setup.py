@@ -65,6 +65,8 @@ setup(
     entry_points='''
        [console_scripts]
        wq=wq.core:wq
+       [wq]
+       wq.core=wq.core.info
     ''',
     description=LONG_DESCRIPTION.strip(),
     long_description=parse_markdown_readme(),
