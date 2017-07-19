@@ -18,6 +18,11 @@ class ConfigGroup(click.Group):
         else:
             return super(ConfigGroup, self).invoke(ctx)
 
+    def list_commands(self, ctx):
+        commands = super(ConfigGroup, self).list_commands(ctx)
+        commands = [cmd for cmd in commands if not cmd.startswith('_')]
+        return commands
+
 
 def config_group(name=None, **attrs):
     attrs.setdefault('cls', ConfigGroup)
