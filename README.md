@@ -1,11 +1,33 @@
-# wq.core
+[![wq.core](https://raw.github.com/wq/wq/master/images/256/wq.core.png)](https://wq.io/wq.core)
 
-wq.core provides the `wq` command for use by [wq.app], [wq.io], and [wq.start].
+[wq.core](https://wq.io/wq.core) provides the core `wq` command line application for use by [wq.app](https://wq.io/wq.app) and other modules in the [wq framework](https://wq.io/).
+
+[![Latest PyPI Release](https://img.shields.io/pypi/v/wq.core.svg)](https://pypi.python.org/pypi/wq.core)
+[![Release Notes](https://img.shields.io/github/release/wq/wq.core.svg)](https://github.com/wq/wq.core/releases)
+[![Documentation](https://img.shields.io/badge/Docs-1.0-blue.svg)](https://wq.io/wq.core)
+[![License](https://img.shields.io/pypi/l/wq.core.svg)](https://wq.io/license)
+[![GitHub Stars](https://img.shields.io/github/stars/wq/wq.core.svg)](https://github.com/wq/wq.core/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/wq/wq.core.svg)](https://github.com/wq/wq.core/network)
+[![GitHub Issues](https://img.shields.io/github/issues/wq/wq.core.svg)](https://github.com/wq/wq.core/issues)
+
+## Getting Started
 
 ```bash
-$ wq --help
+# Recommended: create virtual environment
+# python3 -m venv venv
+# . venv/bin/activate
+
+# Install entire wq suite (recommended)
+pip install wq
+
+# Install only wq.core
+pip install wq.core
 ```
 
-[wq.app]: https://wq.io/wq.app
-[wq.io]: https://wq.io/wq.io
-[wq.start]: https://wq.io/docs/setup
+## Command Line Reference
+
+```bash
+wq --help
+```
+
+See [the documentation](https://wq.io/docs/wq) for more information.
