@@ -13,9 +13,9 @@ from pkg_resources import get_distribution
 )
 def versions(output, libraries):
     """
-    List installed modules and dependencies.
-    Specify one or more libraries to show those dependencies instead.
-    (Useful for generating a requirements.txt)
+    List installed modules and dependencies.  Specify one or more packages to
+    show their dependencies instead of wq's.  (Useful for generating a
+    requirements.txt when pip freeze returns extraneous system packages.)
     """
     print_versions(output, libraries)
 
