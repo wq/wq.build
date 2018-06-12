@@ -2,7 +2,6 @@ from __future__ import print_function
 from wq.core import wq
 import click
 import sys
-from pkg_resources import get_distribution
 
 
 @wq.command()
@@ -13,34 +12,37 @@ from pkg_resources import get_distribution
 )
 def versions(output, libraries):
     """
-    List installed modules and dependencies.  Specify one or more packages to
-    show their dependencies instead of wq's.  (Useful for generating a
-    requirements.txt when pip freeze returns extraneous system packages.)
+    List installed modules and dependencies.  Note: this is now
+    just a wrapper around pip freeze.
     """
+    click.echo(
+        "Warning: wq versions is now an alias for pip freeze",
+        err=True,
+    )
     print_versions(output, libraries)
 
 
-def print_versions(output, libraries):
-    if not libraries:
-        libraries = ['wq']
-    libs = set()
+def print_versions(output, libraries=[]):
+    try:
+        from pip._internal.operations import freeze
+    except ImportError:
+        from pip.operations import freeze
 
-    def add_lib(lib):
-        dist = get_distribution(lib)
-        libs.add((lib, dist.version))
-        for req in dist.requires():
-            add_lib(req.project_name)
+    if libraries:
+        click.echo(
+            "Warning: The libraries argument has no effect",
+            err=True,
+        )
 
-    for lib in libraries:
-        add_lib(lib)
+    deps = freeze.freeze()
 
     if output:
-        dest = open(output, 'w')
+        with open(output, 'w') as f:
+           for dep in deps:
+               print(dep, file=f)
     else:
-        dest = sys.stdout
-
-    for lib, version in sorted(libs):
-        dest.write('%s==%s\n' % (lib, version))
+        for dep in deps:
+            click.echo(dep)
 
 
 DOC_LAYOUT = """---
