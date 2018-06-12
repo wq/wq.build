@@ -1,7 +1,6 @@
 from __future__ import print_function
 from wq.core import wq
 import click
-import sys
 
 
 @wq.command()
@@ -38,8 +37,8 @@ def print_versions(output, libraries=[]):
 
     if output:
         with open(output, 'w') as f:
-           for dep in deps:
-               print(dep, file=f)
+            for dep in deps:
+                print(dep, file=f)
     else:
         for dep in deps:
             click.echo(dep)

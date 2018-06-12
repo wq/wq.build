@@ -38,6 +38,7 @@ def wq(ctx, config):
 class Config(dict):
     filename = None
 
+
 wq.pass_config = click.make_pass_decorator(Config)
 
 

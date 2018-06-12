@@ -1,0 +1,11 @@
+language: python
+sudo: false
+env:
+ - LINT=
+ - LINT=1
+python:
+ - "3.6"
+install:
+ - pip install flake8
+script:
+ - ./runtests.sh
