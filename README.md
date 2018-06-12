@@ -10,6 +10,8 @@
 [![GitHub Forks](https://img.shields.io/github/forks/wq/wq.core.svg)](https://github.com/wq/wq.core/network)
 [![GitHub Issues](https://img.shields.io/github/issues/wq/wq.core.svg)](https://github.com/wq/wq.core/issues)
 
+[![Travis Build Status](https://img.shields.io/travis/wq/wq.core/master.svg)](https://travis-ci.org/wq/wq.core)
+
 ## Getting Started
 
 ```bash
