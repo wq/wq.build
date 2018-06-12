@@ -2,9 +2,9 @@
 
 [wq.core](https://wq.io/wq.core) provides the core `wq` command line application for use by [wq.app](https://wq.io/wq.app) and other modules in the [wq framework](https://wq.io/).
 
-[![Latest PyPI Release](https://img.shields.io/pypi/v/wq.core.svg)](https://pypi.python.org/pypi/wq.core)
+[![Latest PyPI Release](https://img.shields.io/pypi/v/wq.core.svg)](https://pypi.org/project/wq.core)
 [![Release Notes](https://img.shields.io/github/release/wq/wq.core.svg)](https://github.com/wq/wq.core/releases)
-[![Documentation](https://img.shields.io/badge/Docs-1.0-blue.svg)](https://wq.io/wq.core)
+[![Documentation](https://img.shields.io/badge/Docs-1.1-blue.svg)](https://wq.io/wq.core)
 [![License](https://img.shields.io/pypi/l/wq.core.svg)](https://wq.io/license)
 [![GitHub Stars](https://img.shields.io/github/stars/wq/wq.core.svg)](https://github.com/wq/wq.core/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/wq/wq.core.svg)](https://github.com/wq/wq.core/network)
