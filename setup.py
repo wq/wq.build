@@ -48,7 +48,7 @@ create_wq_namespace()
 
 setup(
     name='wq.core',
-    version='1.1.0',
+    version='1.1.1-dev',
     author='S. Andrew Sheppard',
     author_email='andrew@wq.io',
     url='https://wq.io/',
