@@ -25,7 +25,7 @@ def wq(ctx, config):
         return
 
     try:
-        conf = Config(yaml.load(open(config)))
+        conf = Config(yaml.safe_load(open(config)))
         conf.filename = config
     except IOError:
         if config != "wq.yml":
