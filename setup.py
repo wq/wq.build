@@ -6,26 +6,9 @@ The wq command line tool.
 """
 
 
-def parse_markdown_readme():
-    """
-    Convert README.md to RST via pandoc, and load into memory
-    (fallback to LONG_DESCRIPTION on failure)
-    """
-    # Attempt to run pandoc on markdown file
-    import subprocess
+def readme():
     try:
-        subprocess.call(
-            ['pandoc', '-t', 'rst', '-o', 'README.rst', 'README.md']
-        )
-    except OSError:
-        return LONG_DESCRIPTION
-
-    # Attempt to load output
-    try:
-        readme = open(os.path.join(
-            os.path.dirname(__file__),
-            'README.rst'
-        ))
+        readme = open('README.md')
     except IOError:
         return LONG_DESCRIPTION
     return readme.read()
@@ -48,7 +31,7 @@ create_wq_namespace()
 
 setup(
     name='wq.core',
-    version='1.1.1-dev',
+    use_scm_version=True,
     author='S. Andrew Sheppard',
     author_email='andrew@wq.io',
     url='https://wq.io/',
@@ -61,6 +44,9 @@ setup(
         'click<6',
         'PyYAML',
     ],
+    setup_requires=[
+        'setuptools_scm',
+    ],
     namespace_packages=['wq'],
     entry_points='''
        [console_scripts]
@@ -69,7 +55,8 @@ setup(
        wq.core=wq.core.info
     ''',
     description=LONG_DESCRIPTION.strip(),
-    long_description=parse_markdown_readme(),
+    long_description=readme(),
+    long_description_content_type='text/markdown',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
@@ -80,6 +67,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Build Tools',
     ]
