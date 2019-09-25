@@ -52,7 +52,6 @@ expected = [
     'wq.app',
     'wq.core',
     'wq.db',
-    'wq.io',
     'wq.start',
 ]
 missing = set(expected) - set(module_names)
