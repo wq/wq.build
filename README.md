@@ -20,10 +20,10 @@
 # . venv/bin/activate
 
 # Install entire wq suite (recommended)
-pip install wq
+python3 -m pip install wq
 
 # Install only wq.core
-pip install wq.core
+python3 -m pip install wq.core
 ```
 
 ## Command Line Reference
