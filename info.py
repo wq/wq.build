@@ -11,8 +11,8 @@ import click
 )
 def versions(output, libraries):
     """
-    List installed modules and dependencies.  Note: this is now
-    just a wrapper around pip freeze.
+    (DEPRECATED) List installed dependencies.  This is a wrapper for
+    `pip freeze` and will be removed in wq.core 2.0.
     """
     click.echo(
         "Warning: wq versions is now an alias for pip freeze",
