@@ -1,5 +1,5 @@
 from __future__ import print_function
-from wq.core import wq
+from wq.build import wq
 import click
 
 

@@ -30,15 +30,15 @@ def create_wq_namespace():
 create_wq_namespace()
 
 setup(
-    name='wq.core',
+    name='wq.build',
     use_scm_version=True,
     author='S. Andrew Sheppard',
     author_email='andrew@wq.io',
     url='https://wq.io/',
     license='MIT',
-    packages=['wq', 'wq.core'],
+    packages=['wq', 'wq.build'],
     package_dir={
-        'wq.core': '.',
+        'wq.build': '.',
     },
     install_requires=[
         'click<6',
@@ -50,9 +50,9 @@ setup(
     namespace_packages=['wq'],
     entry_points='''
        [console_scripts]
-       wq=wq.core:wq
+       wq=wq.build:wq
        [wq]
-       wq.core=wq.core.info
+       wq.build=wq.build.info
     ''',
     description=LONG_DESCRIPTION.strip(),
     long_description=readme(),

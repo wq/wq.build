@@ -50,9 +50,9 @@ for module in iter_entry_points(group='wq', name=None):
 
 expected = [
     'wq.app',
-    'wq.core',
+    'wq.build',
+    'wq.create',
     'wq.db',
-    'wq.start',
 ]
 missing = set(expected) - set(module_names)
 
