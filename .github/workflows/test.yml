@@ -33,3 +33,5 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Test CLI commands
+      run: cd tests/commands && ./test_commands.sh

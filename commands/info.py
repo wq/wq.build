@@ -1,4 +1,3 @@
-from __future__ import print_function
 from wq.build import wq
 import click
 

@@ -36,13 +36,15 @@ setup(
     author_email='andrew@wq.io',
     url='https://wq.io/',
     license='MIT',
-    packages=['wq', 'wq.build'],
+    packages=['wq', 'wq.build', 'wq.build.commands'],
     package_dir={
         'wq.build': '.',
+        'wq.build.commands': './commands',
     },
     install_requires=[
         'click<6',
         'PyYAML',
+        'Pillow',
     ],
     setup_requires=[
         'setuptools_scm',
@@ -52,7 +54,7 @@ setup(
        [console_scripts]
        wq=wq.build:wq
        [wq]
-       wq.build=wq.build.info
+       wq.build=wq.build.commands
     ''',
     description=LONG_DESCRIPTION.strip(),
     long_description=readme(),
