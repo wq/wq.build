@@ -10,7 +10,7 @@
 [![GitHub Forks](https://img.shields.io/github/forks/wq/wq.build.svg)](https://github.com/wq/wq.build/network)
 [![GitHub Issues](https://img.shields.io/github/issues/wq/wq.build.svg)](https://github.com/wq/wq.build/issues)
 
-[![Travis Build Status](https://img.shields.io/travis/wq/wq.build/master.svg)](https://travis-ci.org/wq/wq.build)
+[![Build Status](https://github.com/wq/wq.build/workflows/Tests/badge.svg)](https://github.com/wq/wq.build/actions?query=workflow%3ATests)
 
 ## Getting Started
 
