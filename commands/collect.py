@@ -7,8 +7,8 @@ from collections import OrderedDict
 
 
 NEST = {
-    'json': json,
-    'yaml': yaml
+    'json': lambda f: json.load(f),
+    'yaml': lambda f: yaml.safe_load(f),
 }
 
 
@@ -39,13 +39,14 @@ def readfiles(basedir, ftype=None, fext=None):
             data = open(basedir + os.sep + fpath + ext)
             if ftype in NEST:
                 try:
-                    o[name] = NEST[ftype].load(data)
+                    o[name] = NEST[ftype](data)
                 except ValueError as e:
                     raise click.ClickException(
                         "Could not parse %s; %s" % (fpath + ext, e)
                     )
             else:
                 o[name] = data.read()
+            data.close()
 
         for name in sorted(dirs):
             o[name] = OrderedDict()
