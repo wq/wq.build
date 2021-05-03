@@ -22,6 +22,8 @@
 &bull;
 [`wq icons`][icons]
 &bull;
+[`wq serviceworker`][serviceworker]
+&bull;
 [`wq setversion`][setversion]
 
 [logo]: https://wq.io/images/wq.build.svg
@@ -31,6 +33,7 @@
 [api]: https://wq.io/wq.build/#api
 [collectjson]: https://wq.io/wq.build/collectjson
 [icons]: https://wq.io/wq.build/icons
+[serviceworker]: https://wq.io/wq.build/serviceworker
 [setversion]: https://wq.io/wq.build/setversion
 
 [wq framework]: https://wq.io/
