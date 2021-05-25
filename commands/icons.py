@@ -30,6 +30,7 @@ SIZES = {
     },
 
     'ios': {
+        20: 'icon-20',
         29: 'icon-small',
         40: 'icon-40',
         58: 'icon-small@2x',
@@ -41,14 +42,7 @@ SIZES = {
         152: 'icon-76@2x',
         167: 'icon-83.5@2x',
         180: 'icon-60@3x',
-
-        # iOS 6.1
-        50: 'icon-50',
-        57: 'icon',
-        72: 'icon-72',
-        100: 'icon-50@2x',
-        114: 'icon@2x',
-        144: 'icon-72@2x',
+        1024: 'icon-marketing',
     },
 
     'ios-splash': {
