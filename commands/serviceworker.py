@@ -97,8 +97,17 @@ SW_TMPL = """const CACHE_NAME = 'wq-cache-v1';
 const cacheUrls = [{{CACHE}}];
 
 self.addEventListener('install', event => {
+    self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => cache.addAll(cacheUrls))
+        caches
+            .open(CACHE_NAME)
+            .then((cache) =>
+                cache.addAll(
+                    cacheUrls.map(
+                        (url) => new Request(url, { cache: 'no-cache' })
+                    )
+                )
+            )
     );
 });
 
@@ -109,7 +118,7 @@ self.addEventListener('fetch', event => {
     event.respondWith(
         new Promise((resolve, reject) => {
             const timeout = setTimeout(reject, {{TIMEOUT}});
-            fetch(event.request).then(response => {
+            fetch(event.request, { cache: 'no-cache' } ).then(response => {
                 clearTimeout(timeout);
                 const cacheResponse = response.clone();
                 caches
