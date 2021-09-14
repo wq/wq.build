@@ -8,7 +8,9 @@ class ConfigGroup(click.Group):
     """
     def invoke(self, ctx):
         click.Command.invoke(self, ctx)
-        cmd_name, cmd, args = self.resolve_command(ctx, ctx.args)
+        cmd_name, cmd, args = self.resolve_command(
+            ctx, ctx.protected_args + ctx.args
+        )
         confs = ctx.default_map.get(cmd_name, {})
         if isinstance(confs, list):
             for conf in confs:
@@ -20,7 +22,9 @@ class ConfigGroup(click.Group):
 
     def list_commands(self, ctx):
         commands = super(ConfigGroup, self).list_commands(ctx)
-        commands = [cmd for cmd in commands if not cmd.startswith('_')]
+        commands = [
+            cmd for cmd in commands if not cmd.startswith(('_', '-'))
+        ]
         return commands
 
 

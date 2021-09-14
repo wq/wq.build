@@ -42,7 +42,7 @@ setup(
         'wq.build.commands': './commands',
     },
     install_requires=[
-        'click<6',
+        'click',
         'PyYAML',
         'Pillow',
     ],
