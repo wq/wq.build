@@ -97,7 +97,6 @@ SW_TMPL = """const CACHE_NAME = 'wq-cache-v1';
 const cacheUrls = [{{CACHE}}];
 
 self.addEventListener('install', event => {
-    self.skipWaiting();
     event.waitUntil(
         caches
             .open(CACHE_NAME)
@@ -108,6 +107,7 @@ self.addEventListener('install', event => {
                     )
                 )
             )
+            .then(() => self.skipWaiting());
     );
 });
 
