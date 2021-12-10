@@ -38,6 +38,11 @@ def wq(ctx, config):
 class Config(dict):
     filename = None
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if isinstance(self.get('icons', {}).get('size'), str):
+            self['icons']['size'] = [self['icons']['size']]
+
 
 wq.pass_config = click.make_pass_decorator(Config)
 
