@@ -87,7 +87,7 @@ for platform, aliases in list(SIZES.items()):
 
 
 @wq.command()
-@click.argument("source", type=click.Path(exists=True))
+@click.argument("source", type=click.Path())
 @click.option(
     "--size",
     "-s",
@@ -156,6 +156,8 @@ def icons(config, **conf):
 
     base_path = config.path.parent if config.path else pathlib.Path()
     source_path = base_path / conf["source"]
+    if not source_path.exists():
+        raise click.ClickException(f"{source_path} not found.")
     source_mtime = source_path.stat().st_mtime
     img = Image.open(source_path)
 
@@ -187,7 +189,7 @@ def icons(config, **conf):
             name = os.path.join(conf["outdir"], name)
 
         icon_path = base_path / name
-        if icon_path.stat().st_mtime > source_mtime:
+        if icon_path.exists() and icon_path.stat().st_mtime > source_mtime:
             continue
 
         icon = img.copy()
