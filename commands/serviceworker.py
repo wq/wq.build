@@ -3,6 +3,7 @@ import click
 import os
 import json
 from glob import glob
+import pathlib
 
 
 @wq.command()
@@ -34,7 +35,8 @@ from glob import glob
     default=400,
     help="Timeout to use before falling back to cache.",
 )
-def serviceworker(version, template, output, cache, scope, timeout):
+@wq.pass_config
+def serviceworker(config, version, template, output, cache, scope, timeout):
     """
     Generate a service-worker.js.  The default service worker will function as
     follows:
@@ -57,16 +59,17 @@ def serviceworker(version, template, output, cache, scope, timeout):
     create-react-app, so you do not need to use this command.
     """
 
+    base_path = config.path.parent if config.path else pathlib.Path()
     if template:
-        with open(template) as f:
-            template = f.read()
+        template = (base_path / template).read_text()
     else:
         template = SW_TMPL
 
     if not scope.endswith("/"):
         scope += "/"
 
-    basedir = os.path.dirname(output)
+    output_path = base_path / output
+    basedir = os.path.dirname(output_path)
     paths = []
 
     for path in cache:
@@ -80,12 +83,11 @@ def serviceworker(version, template, output, cache, scope, timeout):
 
     cache = ",".join(json.dumps(path) for path in paths)
 
-    with open(output, "w") as f:
-        f.write(
-            template.replace("{{VERSION}}", version)
-            .replace("{{CACHE}}", cache)
-            .replace("{{TIMEOUT}}", str(timeout))
-        )
+    output_path.write_text(
+        template.replace("{{VERSION}}", version)
+        .replace("{{CACHE}}", cache)
+        .replace("{{TIMEOUT}}", str(timeout))
+    )
 
 
 SW_TMPL = """const CACHE_NAME = 'wq-cache-v1';

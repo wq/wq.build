@@ -1,7 +1,7 @@
-import os
 from wq.build import wq
 import click
 import re
+import pathlib
 
 
 @wq.command()
@@ -15,44 +15,43 @@ import re
 @click.option("--esm", help="Name of an ESM module (e.g. myapp/version.js)")
 @click.option("--package", help="Path to package.json")
 @click.argument("version")
-def setversion(**conf):
+@wq.pass_config
+def setversion(config, **conf):
     """
     Update version.txt (and version.js).  Useful for keeping track of which
     version has been deployed.  The version.js AMD module can be referenced
     within your application to notify users.
     """
+    base_path = config.path.parent if config.path else pathlib.Path()
+    version_path = base_path / conf["filename"]
     if conf["version"] is None:
-        if os.path.exists(conf["filename"]):
-            version = open(conf["filename"]).read().strip()
+        if version_path.exists():
+            version = version_path.read_text().strip()
         else:
             version = ""
     else:
         version = conf["version"]
-        vtxt = open(conf["filename"], "w")
-        vtxt.write(version)
-        vtxt.close()
+        version_path.write_text(version)
 
     if conf["esm"] or conf["jsout"]:
         # Update version.js
         if conf["esm"]:
-            js_file = conf["esm"]
+            js_file = base_path / conf["esm"]
             js_tmpl = """export default "%s";"""
         else:
-            js_file = conf["jsout"]
+            js_file = base_path / conf["jsout"]
             js_tmpl = """define(function(){return "%s";});"""
-        with open(js_file, "w") as f:
-            f.write(js_tmpl % version)
-        click.echo("%s: %s" % (js_file, version))
+        js_file.write_text(js_tmpl % version)
+        click.echo("%s: %s" % (js_file.relative_to(base_path), version))
     else:
         click.echo("Application version: %s" % version)
 
     if conf["package"]:
-        with open(conf["package"]) as f:
-            content = f.read()
+        package_path = base_path / conf["package"]
+        content = package_path.read_text()
         content = re.sub(
             '"version": "[^"]+"', '"version": "%s"' % version, content
         )
-        with open(conf["package"], "w") as f:
-            f.write(content)
+        package_path.write_text(content)
 
     return version

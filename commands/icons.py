@@ -3,6 +3,7 @@ import click
 
 import os
 from PIL import Image, ImageOps
+import pathlib
 
 SIZES = {
     "web": {
@@ -100,7 +101,8 @@ for platform, aliases in list(SIZES.items()):
     help="Filename template for output files",
 )
 @click.option("--outdir", "-d", type=click.Path(), help="Output Directory")
-def icons(**conf):
+@wq.pass_config
+def icons(config, **conf):
     """
     Generate resized icons from source image.  If no size is specified,
     generates all of the recommended icon sizes for web, Android, iOS, and
@@ -152,7 +154,11 @@ def icons(**conf):
     if conf["outdir"] and not os.path.exists(conf["outdir"]):
         os.mkdir(conf["outdir"])
 
-    img = Image.open(conf["source"])
+    base_path = config.path.parent if config.path else pathlib.Path()
+    source_path = base_path / conf["source"]
+    source_mtime = source_path.stat().st_mtime
+    img = Image.open(source_path)
+
     for size in sizes:
         nine_patch = False
         if isinstance(size, int):
@@ -164,6 +170,25 @@ def icons(**conf):
             width, height = (int(s) for s in size.split("x"))
             minsize = min(width, height)
         minsize = min(minsize, max(img.width, img.height))
+
+        aliases = ALIASES.get(size, {})
+        if len(aliases.keys()) == 1:
+            alias = list(aliases.values())[0]
+        elif platform and platform in aliases:
+            alias = aliases[platform]
+        else:
+            alias = "icon-%s" % size
+
+        name = conf["filename"].format(
+            size=size,
+            alias=alias,
+        )
+        if conf["outdir"]:
+            name = os.path.join(conf["outdir"], name)
+
+        icon_path = base_path / name
+        if icon_path.stat().st_mtime > source_mtime:
+            continue
 
         icon = img.copy()
         icon.thumbnail((minsize, minsize), Image.ANTIALIAS)
@@ -177,14 +202,6 @@ def icons(**conf):
             fill = img.load()[0, 0]
             icon = ImageOps.expand(icon, (left, top, right, bottom), fill)
 
-        aliases = ALIASES.get(size, {})
-        if len(aliases.keys()) == 1:
-            alias = list(aliases.values())[0]
-        elif platform and platform in aliases:
-            alias = aliases[platform]
-        else:
-            alias = "icon-%s" % size
-
         if nine_patch:
             icon = ImageOps.expand(icon, 1, 0)
             data = icon.load()
@@ -195,10 +212,4 @@ def icons(**conf):
                 data[0, 1] = data[1, 0] = (0, 0, 0, 255)
                 data[0, height] = data[width, 0] = (0, 0, 0, 255)
 
-        name = conf["filename"].format(
-            size=size,
-            alias=alias,
-        )
-        if conf["outdir"]:
-            name = os.path.join(conf["outdir"], name)
-        icon.save(name, "PNG")
+        icon.save(icon_path, "PNG")

@@ -36,10 +36,18 @@ setup(
     author_email="andrew@wq.io",
     url="https://wq.io/",
     license="MIT",
-    packages=["wq", "wq.build", "wq.build.commands"],
+    packages=[
+        "wq",
+        "wq.build",
+        "wq.build.commands",
+        "wq.build.management",
+        "wq.build.management.commands",
+    ],
     package_dir={
         "wq.build": ".",
         "wq.build.commands": "./commands",
+        "wq.build.management": "./management",
+        "wq.build.management.commands": "./management/commands",
     },
     install_requires=[
         "click",
