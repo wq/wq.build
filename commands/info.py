@@ -35,7 +35,7 @@ def print_versions(output, libraries=[]):
     deps = freeze.freeze()
 
     if output:
-        with open(output, 'w') as f:
+        with open(output, "w") as f:
             for dep in deps:
                 print(dep, file=f)
     else:
@@ -87,22 +87,22 @@ def _make_docs(ctx):
     command_list = []
     modules = set()
     for i, (name, cmd) in enumerate(sorted(wq.commands.items())):
-        if name.startswith('_'):
+        if name.startswith("_"):
             continue
-        if 'DEPRECATED' in cmd.short_help:
+        if "DEPRECATED" in cmd.short_help:
             continue
 
-        mod = '.'.join(cmd.callback.__module__.split('.')[:2])
-        if not mod.startswith('wq.'):
+        mod = ".".join(cmd.callback.__module__.split(".")[:2])
+        if not mod.startswith("wq."):
             continue
 
         modules.add(mod)
 
-        with open('%s/%s.md' % (mod, name), 'w') as f:
+        with open("%s/%s.md" % (mod, name), "w") as f:
             cctx = click.Context(cmd, info_name=name, parent=ctx.parent)
             command_info = dict(
                 name=name,
-                title_line='=' * (len(name) + 3),
+                title_line="=" * (len(name) + 3),
                 short_help=cmd.short_help,
                 mod=mod,
                 help=cmd.get_help(cctx),
@@ -110,12 +110,11 @@ def _make_docs(ctx):
             print(DOC_LAYOUT.format(**command_info), file=f)
             command_list.append(command_info)
 
-    wq_help = wq.get_help(ctx.parent).split('Commands:')[0].strip()
-    with open('wq.build/cli.md', 'w') as f:
-        print(INDEX_LAYOUT.format(
-           short_help=wq.short_help,
-           help=wq_help
-        ), file=f)
+    wq_help = wq.get_help(ctx.parent).split("Commands:")[0].strip()
+    with open("wq.build/cli.md", "w") as f:
+        print(
+            INDEX_LAYOUT.format(short_help=wq.short_help, help=wq_help), file=f
+        )
         for command_info in command_list:
             print(INDEX_ROW.format(**command_info), file=f)
         print("", file=f)

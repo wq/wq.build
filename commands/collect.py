@@ -7,8 +7,8 @@ from collections import OrderedDict
 
 
 NEST = {
-    'json': lambda f: json.load(f),
-    'yaml': lambda f: yaml.safe_load(f),
+    "json": lambda f: json.load(f),
+    "yaml": lambda f: yaml.safe_load(f),
 }
 
 
@@ -18,8 +18,8 @@ def readfiles(basedir, ftype=None, fext=None):
         fext = ftype
 
     for path, dirs, files in sorted(os.walk(basedir)):
-        if '.svn' in dirs:
-            dirs.remove('.svn')
+        if ".svn" in dirs:
+            dirs.remove(".svn")
         o = obj
         if path == basedir:
             path = ""
@@ -32,7 +32,7 @@ def readfiles(basedir, ftype=None, fext=None):
 
         for filename in sorted(files):
             name, ext = os.path.splitext(filename)
-            if ftype and ext != '.' + fext:
+            if ftype and ext != "." + fext:
                 continue
 
             fpath = path + name
@@ -56,13 +56,13 @@ def readfiles(basedir, ftype=None, fext=None):
 
 @wq.command()
 @click.option(
-    '--type', default='json', help="Source file type (e.g. json, yaml)"
+    "--type", default="json", help="Source file type (e.g. json, yaml)"
 )
-@click.option('--extension', help="Source file extension (e.g. json, yml)")
-@click.option('--output', default='output.json', help="Destination JSON file")
-@click.option('--indent', default=4, help="JSON Indentation")
-@click.option('--jsonp', help="Wrap as JSONP")
-@click.argument('paths', type=click.Path(exists=True), nargs=-1)
+@click.option("--extension", help="Source file extension (e.g. json, yml)")
+@click.option("--output", default="output.json", help="Destination JSON file")
+@click.option("--indent", default=4, help="JSON Indentation")
+@click.option("--jsonp", help="Wrap as JSONP")
+@click.argument("paths", type=click.Path(exists=True), nargs=-1)
 @wq.pass_config
 def collectjson(config, **conf):
     """
@@ -79,36 +79,37 @@ def collectjson(config, **conf):
     wq collectjson --type json --output config.json config/
     """
 
-    if not conf['extension']:
-        conf['extension'] = conf['type']
+    if not conf["extension"]:
+        conf["extension"] = conf["type"]
 
-    if not conf['paths']:
-        if isinstance(config.get('collectjson', None), dict):
+    if not conf["paths"]:
+        if isinstance(config.get("collectjson", None), dict):
             # Ensure wq.yml paths are used if not passed via argument
-            conf['paths'] = config['collectjson'].get('paths', None)
+            conf["paths"] = config["collectjson"].get("paths", None)
 
-        if not conf['paths']:
-            conf['paths'] = ['.']
+        if not conf["paths"]:
+            conf["paths"] = ["."]
 
     obj = OrderedDict()
-    for d in conf['paths']:
-        obj.update(readfiles(d, conf['type'], conf['extension']))
+    for d in conf["paths"]:
+        obj.update(readfiles(d, conf["type"], conf["extension"]))
 
-    outfile = open(conf['output'], 'w')
+    outfile = open(conf["output"], "w")
 
     opts = {}
-    if conf['indent']:
-        opts['indent'] = conf['indent']
+    if conf["indent"]:
+        opts["indent"] = conf["indent"]
 
-    if conf['jsonp']:
+    if conf["jsonp"]:
         txt = json.dumps(obj, **opts)
-        txt = '%s(%s);' % (conf['jsonp'], txt)
+        txt = "%s(%s);" % (conf["jsonp"], txt)
         outfile.write(txt)
     else:
         json.dump(obj, outfile, **opts)
 
-    click.echo('%s: %s objects collected from %s' % (
-        conf['output'], len(obj), ', '.join(conf['paths'])
-    ))
+    click.echo(
+        "%s: %s objects collected from %s"
+        % (conf["output"], len(obj), ", ".join(conf["paths"]))
+    )
 
     outfile.close()

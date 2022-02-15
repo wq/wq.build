@@ -6,35 +6,33 @@ from glob import glob
 
 
 @wq.command()
-@click.argument('version')
+@click.argument("version")
 @click.option(
-    '--template',
-    type=click.Path(),
-    help="Override service worker template"
+    "--template", type=click.Path(), help="Override service worker template"
 )
 @click.option(
-    '--output',
+    "--output",
     type=click.Path(),
     default="./htdocs/service-worker.js",
-    help="Destination file (default: ./htdocs/service-worker.js)"
+    help="Destination file (default: ./htdocs/service-worker.js)",
 )
 @click.option(
-    '--cache',
+    "--cache",
     type=click.Path(),
     multiple=True,
-    help="File(s) or directories to cache"
+    help="File(s) or directories to cache",
 )
 @click.option(
-    '--scope',
+    "--scope",
     type=str,
     default="/",
-    help="Path prefix for service worker and cached files"
+    help="Path prefix for service worker and cached files",
 )
 @click.option(
-    '--timeout',
+    "--timeout",
     type=int,
     default=400,
-    help="Timeout to use before falling back to cache."
+    help="Timeout to use before falling back to cache.",
 )
 def serviceworker(version, template, output, cache, scope, timeout):
     """
@@ -65,24 +63,24 @@ def serviceworker(version, template, output, cache, scope, timeout):
     else:
         template = SW_TMPL
 
-    if not scope.endswith('/'):
-        scope += '/'
+    if not scope.endswith("/"):
+        scope += "/"
 
     basedir = os.path.dirname(output)
     paths = []
 
     for path in cache:
-        if path.startswith('/'):
+        if path.startswith("/"):
             path = path[1:]
-        if '*' not in path:
+        if "*" not in path:
             paths.append(scope + path)
             continue
         for filename in glob(os.path.join(basedir, path)):
-            paths.append(filename.replace(basedir + '/', scope))
+            paths.append(filename.replace(basedir + "/", scope))
 
     cache = ",".join(json.dumps(path) for path in paths)
 
-    with open(output, 'w') as f:
+    with open(output, "w") as f:
         f.write(
             template.replace("{{VERSION}}", version)
             .replace("{{CACHE}}", cache)

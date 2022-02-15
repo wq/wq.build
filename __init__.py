@@ -7,10 +7,11 @@ from pkg_resources import iter_entry_points
 # Core wq CLI
 @config_group()
 @click.option(
-    '-c', '--config',
-    default='wq.yml',
+    "-c",
+    "--config",
+    default="wq.yml",
     type=click.Path(),
-    help='Path to configuration file (default is wq.yml).'
+    help="Path to configuration file (default is wq.yml).",
 )
 @click.pass_context
 def wq(ctx, config):
@@ -40,8 +41,8 @@ class Config(dict):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if isinstance(self.get('icons', {}).get('size'), str):
-            self['icons']['size'] = [self['icons']['size']]
+        if isinstance(self.get("icons", {}).get("size"), str):
+            self["icons"]["size"] = [self["icons"]["size"]]
 
 
 wq.pass_config = click.make_pass_decorator(Config)
@@ -49,15 +50,15 @@ wq.pass_config = click.make_pass_decorator(Config)
 
 # Load custom commands from other modules
 module_names = []
-for module in iter_entry_points(group='wq', name=None):
+for module in iter_entry_points(group="wq", name=None):
     module_names.append(module.name)
     module.load()
 
 expected = [
-    'wq.app',
-    'wq.build',
-    'wq.create',
-    'wq.db',
+    "wq.app",
+    "wq.build",
+    "wq.create",
+    "wq.db",
 ]
 missing = set(expected) - set(module_names)
 
