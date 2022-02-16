@@ -2,6 +2,12 @@ from django.core.management.base import BaseCommand
 from django.core.management import call_command
 from wq.build import Config
 import subprocess
+import os
+
+if os.name == "nt":
+    NPM_COMMAND = "npm.cmd"
+else:
+    NPM_COMMAND = "npm"
 
 
 class Command(BaseCommand):
@@ -18,6 +24,7 @@ class Command(BaseCommand):
         self.call_command_with_config("icons")
         self.npm_build()
         call_command("collectstatic", interactive=False)
+        self.call_command_with_config("movefiles")
         self.call_command_with_config("serviceworker", version)
 
     def call_command_with_config(self, name, *args, rel_path=False):
@@ -31,4 +38,4 @@ class Command(BaseCommand):
     def npm_build(self):
         app_dir = self.config.path.parent / "app"
         if app_dir.exists() and (app_dir / "package.json").exists():
-            subprocess.check_call(["npm", "run", "build"], cwd=app_dir)
+            subprocess.check_call([NPM_COMMAND, "run", "build"], cwd=app_dir)
