@@ -18,9 +18,13 @@
 &bull;
 [**API**][api]
 &bull;
+[`./manage.py deploy`][deploy]
+&bull;
 [`wq collectjson`][collectjson]
 &bull;
 [`wq icons`][icons]
+&bull;
+[`wq movefiles`][movefiles]
 &bull;
 [`wq serviceworker`][serviceworker]
 &bull;
@@ -31,8 +35,10 @@
 
 [installation]: https://wq.io/wq.build/#installation
 [api]: https://wq.io/wq.build/#api
+[deploy]: https://wq.io/wq.build/deploy
 [collectjson]: https://wq.io/wq.build/collectjson
 [icons]: https://wq.io/wq.build/icons
+[movefiles]: https://wq.io/wq.build/movefiles
 [serviceworker]: https://wq.io/wq.build/serviceworker
 [setversion]: https://wq.io/wq.build/setversion
 
