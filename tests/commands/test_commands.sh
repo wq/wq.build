@@ -5,22 +5,21 @@ function test_command {
     echo
     if [ -z "$2" ]; then
         CMD=$1;
+        ARG="";
         echo Testing wq $CMD...;
     else
-        CMD=$2;
-        PRE_CMD=$1;
-        echo "Testing wq $CMD (after $PRE_CMD)...";
+        CMD=$1;
+        ARG=$2;
+        echo "Testing wq $CMD $ARG...";
     fi;
 
     cd $CMD;
     rm -rf output/;
     mkdir output;
-    if [ ! -z "$PRE_CMD" ]; then
-        wq $PRE_CMD;
-    fi;
-    wq $CMD;
+    wq $CMD $ARG;
     diff -r expected/ output/
     cd ..;
 }
 
 test_command collectjson;
+test_command serviceworker 0.0.0;

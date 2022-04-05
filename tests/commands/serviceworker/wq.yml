@@ -1,0 +1,4 @@
+serviceworker:
+    output: output/service-worker.js
+    cache:
+    - ../input/*.js
