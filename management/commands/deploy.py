@@ -11,7 +11,8 @@ else:
 
 
 class Command(BaseCommand):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.config = Config.from_file()
 
     def add_arguments(self, parser):
