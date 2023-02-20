@@ -2,47 +2,6 @@ from wq.build import wq
 import click
 
 
-@wq.command()
-@click.option("--output", help="Output filename")
-@click.argument(
-    "libraries",
-    nargs=-1,
-)
-def versions(output, libraries):
-    """
-    (DEPRECATED) List installed dependencies.  This is a wrapper for
-    `pip freeze` and will be removed in wq.core 2.0.
-    """
-    click.echo(
-        "Warning: wq versions is now an alias for pip freeze",
-        err=True,
-    )
-    print_versions(output, libraries)
-
-
-def print_versions(output, libraries=[]):
-    try:
-        from pip._internal.operations import freeze
-    except ImportError:
-        from pip.operations import freeze
-
-    if libraries:
-        click.echo(
-            "Warning: The libraries argument has no effect",
-            err=True,
-        )
-
-    deps = freeze.freeze()
-
-    if output:
-        with open(output, "w") as f:
-            for dep in deps:
-                print(dep, file=f)
-    else:
-        for dep in deps:
-            click.echo(dep)
-
-
 DOC_LAYOUT = """wq {name}
 {title_line}
 
@@ -88,8 +47,6 @@ def _make_docs(ctx):
     modules = set()
     for i, (name, cmd) in enumerate(sorted(wq.commands.items())):
         if name.startswith("_"):
-            continue
-        if "DEPRECATED" in cmd.short_help:
             continue
 
         mod = ".".join(cmd.callback.__module__.split(".")[:2])
