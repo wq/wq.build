@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+
+[project]
+name = "wq.build"
+dynamic = ["version"]
+authors = [
+    {name = "S. Andrew Sheppard", email = "andrew@wq.io"},
+]
+description = "The wq command line tool."
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: JavaScript",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Build Tools",
+]
+dependencies = [
+    "click>8",
+    "django-click",
+    "PyYAML",
+    "Pillow",
+]
+
+[project.scripts]
+wq = "wq.build:wq"
+
+[project.entry-points.wq]
+"wq.build" = "wq.build.commands"
+
+[project.urls]
+Homepage = "https://wq.io/wq.build/"
+Documentation = "https://wq.io/"
+Source = "https://github.com/wq/wq.build"
+"Release Notes" = "https://github.com/wq/wq.build/releases"
+Issues = "https://github.com/wq/wq.build/issues"
+CI = "https://github.com/wq/wq.build/actions/workflows/test.yml"
+
+[tool.setuptools_scm]
