@@ -50,6 +50,6 @@ Documentation = "https://wq.io/"
 Source = "https://github.com/wq/wq.build"
 "Release Notes" = "https://github.com/wq/wq.build/releases"
 Issues = "https://github.com/wq/wq.build/issues"
-CI = "https://github.com/wq/wq.build/actions/workflows/test.yml"
+Tests = "https://github.com/wq/wq.build/actions/workflows/test.yml"
 
 [tool.setuptools_scm]
