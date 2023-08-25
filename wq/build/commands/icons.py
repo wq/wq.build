@@ -193,7 +193,7 @@ def icons(config, **conf):
             continue
 
         icon = img.copy()
-        icon.thumbnail((minsize, minsize), Image.ANTIALIAS)
+        icon.thumbnail((minsize, minsize), Image.LANCZOS)
         if icon.width < width or icon.height < height:
             lrpad = width - icon.width
             left = lrpad // 2

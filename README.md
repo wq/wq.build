@@ -1,10 +1,10 @@
 [![wq.build][logo]][docs]
 
-[**wq.build**][docs] (fomerly wq.core) provides the `wq` command line application for use with [wq.app] and other modules in the [wq framework].
+[**wq.build**][docs] provides the `wq` command line application for use with [wq.app] and other modules in the [wq framework].
 
 [![Latest PyPI Release](https://img.shields.io/pypi/v/wq.build.svg)](https://pypi.org/project/wq.build)
 [![Release Notes](https://img.shields.io/github/release/wq/wq.build.svg)](https://github.com/wq/wq.build/releases)
-[![Documentation](https://img.shields.io/badge/Docs-1.3-blue.svg)][docs]
+[![Documentation](https://img.shields.io/badge/Docs-2.0-blue.svg)][docs]
 [![License](https://img.shields.io/pypi/l/wq.build.svg)](https://wq.io/license)
 [![GitHub Stars](https://img.shields.io/github/stars/wq/wq.build.svg)](https://github.com/wq/wq.build/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/wq/wq.build.svg)](https://github.com/wq/wq.build/network)

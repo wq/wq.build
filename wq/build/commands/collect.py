@@ -24,7 +24,7 @@ def readfiles(basedir, ftype=None, fext=None):
         if path == basedir:
             path = ""
         else:
-            path = path[len(basedir) + 1:]
+            path = path[len(basedir) + 1 :]
             apath = path.split(os.sep)
             for subdir in apath:
                 o = o[subdir]
