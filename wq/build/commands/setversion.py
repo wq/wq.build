@@ -11,7 +11,6 @@ import pathlib
     default="version.txt",
     help="Name of text file (default is version.txt)",
 )
-@click.option("--jsout", help="Name of an AMD module (e.g. myapp/version.js)")
 @click.option("--esm", help="Name of an ESM module (e.g. myapp/version.js)")
 @click.option("--package", help="Path to package.json")
 @click.argument("version")
@@ -19,7 +18,7 @@ import pathlib
 def setversion(config, **conf):
     """
     Update version.txt (and version.js).  Useful for keeping track of which
-    version has been deployed.  The version.js AMD module can be referenced
+    version has been deployed.  The version.js ESM module can be referenced
     within your application to notify users.
     """
     base_path = config.path.parent if config.path else pathlib.Path()
@@ -33,14 +32,10 @@ def setversion(config, **conf):
         version = conf["version"]
         version_path.write_text(version)
 
-    if conf["esm"] or conf["jsout"]:
+    if conf["esm"]:
         # Update version.js
-        if conf["esm"]:
-            js_file = base_path / conf["esm"]
-            js_tmpl = """export default "%s";"""
-        else:
-            js_file = base_path / conf["jsout"]
-            js_tmpl = """define(function(){return "%s";});"""
+        js_file = base_path / conf["esm"]
+        js_tmpl = """export default "%s";"""
         js_file.write_text(js_tmpl % version)
         click.echo("%s: %s" % (js_file.relative_to(base_path), version))
     else:

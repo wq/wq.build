@@ -18,8 +18,8 @@ def readfiles(basedir, ftype=None, fext=None):
         fext = ftype
 
     for path, dirs, files in sorted(os.walk(basedir)):
-        if ".svn" in dirs:
-            dirs.remove(".svn")
+        if os.sep + "." in path:
+            continue
         o = obj
         if path == basedir:
             path = ""
@@ -27,6 +27,7 @@ def readfiles(basedir, ftype=None, fext=None):
             path = path[len(basedir) + 1 :]
             apath = path.split(os.sep)
             for subdir in apath:
+                o.setdefault(subdir, OrderedDict())
                 o = o[subdir]
             path = os.sep.join(apath) + os.sep
 
@@ -48,9 +49,6 @@ def readfiles(basedir, ftype=None, fext=None):
                 o[name] = data.read()
             data.close()
 
-        for name in sorted(dirs):
-            o[name] = OrderedDict()
-
     return obj
 
 
@@ -61,19 +59,17 @@ def readfiles(basedir, ftype=None, fext=None):
 @click.option("--extension", help="Source file extension (e.g. json, yml)")
 @click.option("--output", default="output.json", help="Destination JSON file")
 @click.option("--indent", default=4, help="JSON Indentation")
-@click.option("--jsonp", help="Wrap as JSONP")
+@click.option(
+    "--esm/--raw-json", help="Wrap as ES module, or just generate JSON"
+)
 @click.argument("paths", type=click.Path(exists=True), nargs=-1)
 @wq.pass_config
 def collectjson(config, **conf):
     """
-    Load directory files into a JSON object.  The filenames will become the
-    keys and the contents will become the values.  The most common use for this
-    tool is to collect a group of Mustache templates into an AMD module, e.g.:
-
-    wq collectjson --type html --output templates.js --jsonp define templates/
-
-    This tool can also be used to collect existing JSON or YAML configuration
-    files into a single object.  In that case, the file contents will be
+    Load directory files into a JSON object.  The keys will be the filenames
+    (without extentions) and the values will be the file contents.
+    The values will be stored as text strings, except when combining JSON or
+    YAML files into a single object.  In that case, the file contents will be
     embeded as full JSON objects instead of strings.
 
     wq collectjson --type json --output config.json config/
@@ -100,9 +96,9 @@ def collectjson(config, **conf):
     if conf["indent"]:
         opts["indent"] = conf["indent"]
 
-    if conf["jsonp"]:
+    if conf["esm"]:
         txt = json.dumps(obj, **opts)
-        txt = "%s(%s);" % (conf["jsonp"], txt)
+        txt = "export default %s;" % txt
         outfile.write(txt)
     else:
         json.dump(obj, outfile, **opts)
