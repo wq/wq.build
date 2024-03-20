@@ -24,6 +24,12 @@ import pathlib
     help="File(s) or directories to cache",
 )
 @click.option(
+    "--exclude",
+    type=click.Path(),
+    multiple=True,
+    help="Individual file names to exclude from cache",
+)
+@click.option(
     "--scope",
     type=str,
     default="/",
@@ -36,7 +42,16 @@ import pathlib
     help="Timeout to use before falling back to cache.",
 )
 @wq.pass_config
-def serviceworker(config, version, template, output, cache, scope, timeout):
+def serviceworker(
+    config,
+    version,
+    template,
+    output,
+    cache,
+    exclude,
+    scope,
+    timeout,
+):
     """
     Generate a service-worker.js.  The default service worker will function as
     follows:
@@ -79,6 +94,8 @@ def serviceworker(config, version, template, output, cache, scope, timeout):
             paths.append(scope + path)
             continue
         for filename in glob(os.path.join(basedir, path)):
+            if os.path.basename(filename) in exclude:
+                continue
             paths.append(filename.replace(basedir + "/", scope))
 
     cache = ",".join(json.dumps(path) for path in paths)
