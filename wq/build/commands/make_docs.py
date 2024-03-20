@@ -40,13 +40,13 @@ INDEX_ROW = "[{name}] | [{mod}] | {short_help}"
 LINK_ROW = "[{name}]: ../{mod}/{name}.md"
 
 
-@wq.command()
+@wq.command(hidden=True)
 @click.pass_context
-def _make_docs(ctx):
+def make_docs(ctx):
     command_list = []
     modules = set()
     for i, (name, cmd) in enumerate(sorted(wq.commands.items())):
-        if name.startswith("_"):
+        if cmd.hidden:
             continue
 
         mod = ".".join(cmd.callback.__module__.split(".")[:2])
@@ -60,7 +60,7 @@ def _make_docs(ctx):
             command_info = dict(
                 name=name,
                 title_line="=" * (len(name) + 3),
-                short_help=cmd.short_help,
+                short_help=cmd.get_short_help_str(),
                 mod=mod,
                 help=cmd.get_help(cctx),
             )
@@ -69,9 +69,7 @@ def _make_docs(ctx):
 
     wq_help = wq.get_help(ctx.parent).split("Commands:")[0].strip()
     with open("wq.build/cli.md", "w") as f:
-        print(
-            INDEX_LAYOUT.format(short_help=wq.short_help, help=wq_help), file=f
-        )
+        print(INDEX_LAYOUT.format(help=wq_help), file=f)
         for command_info in command_list:
             print(INDEX_ROW.format(**command_info), file=f)
         print("", file=f)

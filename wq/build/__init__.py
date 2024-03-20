@@ -17,7 +17,7 @@ import pathlib
 @click.pass_context
 def wq(ctx, config):
     """
-    wq is a suite of command line utilities for building citizen science apps.
+    wq is a suite of command line utilities for building offline GIS apps.
     Each of the commands below can be configured by creating a wq.yml file in
     the current directory.  Many of the commands can also be configured via
     command line options.
@@ -95,7 +95,7 @@ missing = set(expected) - set(module_names)
 
 # Update help text with list of installed modules
 if module_names:
-    wq.help += "\n\nInstalled modules: " + ", ".join(sorted(module_names))
+    wq.help += "\n\n    Installed modules: " + ", ".join(sorted(module_names))
 if missing:
-    wq.help += "\n\nMissing modules: " + ", ".join(sorted(missing))
-    wq.help += "\n(try installing the 'wq' metapackage)"
+    wq.help += "\n\n    Missing modules: " + ", ".join(sorted(missing))
+    wq.help += " (try installing the 'wq' metapackage)"
