@@ -37,6 +37,9 @@ class Command(BaseCommand):
         call_command(name, *args, **conf)
 
     def npm_build(self):
-        app_dir = self.config.path.parent / "app"
+        root_dir = self.config.path.parent
+        app_dir = root_dir / "app"
         if app_dir.exists() and (app_dir / "package.json").exists():
             subprocess.check_call([NPM_COMMAND, "run", "build"], cwd=app_dir)
+        elif (root_dir / "package.json").exists():
+            subprocess.check_call([NPM_COMMAND, "run", "build"], cwd=root_dir)
