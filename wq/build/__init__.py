@@ -1,7 +1,7 @@
 import click
 from .decorators import config_group
 import yaml
-from pkg_resources import iter_entry_points
+from importlib.metadata import entry_points
 import pathlib
 
 
@@ -81,7 +81,7 @@ wq.pass_config = click.make_pass_decorator(Config)
 
 # Load custom commands from other modules
 module_names = []
-for module in iter_entry_points(group="wq", name=None):
+for module in entry_points(group="wq"):
     module_names.append(module.name)
     module.load()
 
